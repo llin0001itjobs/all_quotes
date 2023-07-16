@@ -32,20 +32,32 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/}">Twelve Quotes</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Twelve Quotes</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+				aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<ul class="navbar-nav sm-auto">
+				<li class="nav-item"><a class="nav-link" th:href="@{/country/list}">Country</a></li>
+			</ul>
+			<div class="collapse navbar-collapse float-end" id="navbarCollapse">
+				<form class="d-flex" action="/quotes/submit">
+					<select class="form-select form-select-sm mx-2" aria-label="Default select example" title="Type">
+						<option value="" selected disabled>Select Type</option>
+						<option th:each="opt : ${ALL_QUOTES.typeSet}" th:value="${opt}">
+							<span th:text="${opt}"></span>
+						</option>
+					</select>
+				</form>
+				<form class="d-flex">
+					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
 
 	<div class="collapse navbar-collapse" id="navbarNav"></div>
 	<main class="container">
@@ -53,24 +65,28 @@
 			<div>
 				<br />
 			</div>
-			<h3>List of Stocks for <span th:text="${ALL_QUOTES.selectedCountry}"> and <span th:text="${ALL_QUOTES.selectedType}"></h3>
+			<h3>List of Stocks for <span th:text="${ALL_QUOTES.selectedCountry}"></h3>
 			<table class="table table-striped">
 				<thead>
 					<tr>
 						<td class="col-sm">Symbol</td>
 						<td>Name</td>
+						<td>Country</td>
 						<td>Currency</td>
 						<td>Exchange</td>
 						<td>Mic Code</td>
+						<td>Type</td>
 					</tr>
 				</thead>
 				<tbody class="">
-					<tr th:each="q : ${ALL_QUOTES.onlyOneType}">
+					<tr th:each="q : ${ALL_QUOTES.quotes}">
 						<td><a th:href="@{/quotes/symbol/{symbol}(symbol=${q.symbol})}"><span th:text="${q.symbol}"></span></a></td>
 						<td th:text="${q.name}"></td>
+						<td th:text="${q.country}"></td>
 						<td th:text="${q.currency}"></td>
 						<td th:text="${q.exchange}"></td>
 						<td th:text="${q.mic_code}"></td>
+						<td th:text="${q.type}"></td>
 					</tr>
 				</tbody>
 			</table>
