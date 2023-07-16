@@ -5,19 +5,26 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.springframework.stereotype.Component;
+import org.llin.twelvequotes.util.LoggingAdvice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Component
 public class AllQuotes {
-	private List<SingleQuote> quotes;
-
+	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
+	
+	private List<SingleQuote> all;
+	private List<SingleQuote> onlyOneCountry;
+	private List<SingleQuote> onlyOneType;
+	
 	private String selectedCountry = "United States";
-
-	private Set<String> countrySet;
-	private Set<String> typeSet;
+	private String selectedType;
+	private String selectedSymbol;
+	
+	private Set<String> countrySet = new TreeSet<>();
+	private Set<String> typeSet = new TreeSet<>();
 
 	public AllQuotes(List<SingleQuote> quotes) {
-		this.quotes = quotes;
+		all = quotes;
 	}
 
 	public String getSelectedCountry() {
@@ -28,8 +35,32 @@ public class AllQuotes {
 		this.selectedCountry = selectedCountry;
 	}
 
-	public List<SingleQuote> getQuotes() {
-		return quotes;
+	public String getSelectedType() {
+		return selectedType;
+	}
+
+	public void setSelectedType(String selectedType) {
+		this.selectedType = selectedType;
+	}
+
+	public String getSelectedSymbol() {
+		return selectedSymbol;
+	}
+
+	public void setSelectedSymbol(String selectedSymbol) {
+		this.selectedSymbol = selectedSymbol;
+	}
+	
+	public List<SingleQuote> getAll() {
+		return all;
+	}
+
+	public List<SingleQuote> getOnlyOneCountry() {
+		return onlyOneCountry;
+	}
+	
+	public List<SingleQuote> getOnlyOneType() {
+		return onlyOneType;
 	}
 
 	public Set<String> getCountrySet() {
@@ -39,20 +70,52 @@ public class AllQuotes {
 	public Set<String> getTypeSet() {
 		return typeSet;
 	}
-
-	public void populateSets() {
-		List<String> lcty = new ArrayList<>();
-		List<String> ltyp = new ArrayList<>();
-
-		for (SingleQuote q : quotes) {
+	
+	public void populateCountrySet() {
+		List<String> list = new ArrayList<>();
+				
+		for (SingleQuote q : all) {		
 			if (!q.getCountry().isEmpty()) {
-				lcty.add(q.getCountry());
+				list.add(q.getCountry());
 			}
-			ltyp.add(q.getType());
 		}
-
-		countrySet = new TreeSet<>(lcty);
-		typeSet = new TreeSet<>(ltyp);
+		countrySet = new TreeSet<>(list);
+	}
+	
+	public void populateTypeSet() {
+		List<String> list = new ArrayList<>();
+		
+		for (SingleQuote q : onlyOneCountry) {		
+			list.add(q.getType());
+		}
+		typeSet = new TreeSet<>(list);	
+	}
+		
+	public void populateForOnlySelectedCountry() {
+		List<SingleQuote> quotes = new ArrayList<>();
+		for (SingleQuote q : all) {
+			if (q.getCountry().equals(selectedCountry)) {
+				quotes.add(q);
+			}
+			onlyOneCountry = quotes;
+		}
 	}
 
+	public void populateForOnlySelectedType() {
+		List<SingleQuote> quotes = new ArrayList<>();
+		for (SingleQuote q : onlyOneCountry) {
+			if (q.getType().equals(selectedType)) {
+				quotes.add(q);
+			}			
+		}
+		onlyOneType = quotes;	
+	}
+
+	@Override
+	public String toString() {
+		return "AllQuotes [all.size()=" + all.size() + ", onlyOneCountry=" + onlyOneCountry.size() + ", onlyOneType=" + onlyOneType.size() + ", selectedCountry=" + selectedCountry
+				+ ", selectedType=" + selectedType + ", selectedSymbol=" + selectedSymbol + ", countrySet=" + countrySet
+				+ ", typeSet=" + typeSet + "]";
+	}
+				
 }

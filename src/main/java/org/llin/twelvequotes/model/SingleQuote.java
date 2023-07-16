@@ -1,6 +1,9 @@
 package org.llin.twelvequotes.model;
 
+//based on https://api.twelvedata.com/stocks
 public class SingleQuote {
+	
+	private int id;
 	private String symbol;
 	private String name;
 	private String currency;
@@ -8,6 +11,13 @@ public class SingleQuote {
 	private String mic_code;
 	private String country;
 	private String type;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	public String getSymbol() {
 		return symbol;
@@ -54,8 +64,8 @@ public class SingleQuote {
 	
 	@Override
 	public String toString() {
-		return "SingleQuote [symbol=" + symbol + ", name=" + name + ", currency=" + currency + ", exchange=" + exchange
-				+ ", mic_code=" + mic_code + ", country=" + country + ", type=" + type + "]";
+		return "SingleQuote [id=" + id + ", symbol=" + symbol + ", name=" + name + ", currency=" + currency
+				+ ", exchange=" + exchange + ", mic_code=" + mic_code + ", country=" + country + ", type=" + type + "]";
 	}
 	
 }
