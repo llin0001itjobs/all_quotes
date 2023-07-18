@@ -17,8 +17,8 @@ public class AllQuotes {
 	private List<SingleQuote> onlyOneType;
 	
 	private String selectedCountry = "United States";
-	private String selectedType;
-	private String selectedSymbol;
+	private String selectedType = "";
+	private String selectedSymbol = "";
 	
 	private Set<String> countrySet = new TreeSet<>();
 	private Set<String> typeSet = new TreeSet<>();
@@ -106,9 +106,13 @@ public class AllQuotes {
 		for (SingleQuote q : onlyOneCountry) {
 			if (q.getType().equals(selectedType)) {
 				quotes.add(q);
-			}			
+			}
+		}
+		if (selectedType.trim().equals("")) {
+			quotes = onlyOneCountry;
 		}
 		onlyOneType = quotes;	
+		System.out.println(this);
 	}
 
 	@Override
