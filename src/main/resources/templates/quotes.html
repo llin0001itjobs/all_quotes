@@ -52,8 +52,10 @@
 					</li>
 				</ul>
 				<form class="d-flex">
+					<input class="form-control me-2" type="text" placeholder="Quote Name" aria-label="Search"
+						id="nameInput" />					
 					<input class="form-control me-2" type="text" placeholder="Quote Symbol" aria-label="Search"
-						id="searchInput" />
+						id="quoteInput" />
 					<input class="btn btn-outline-success" type="button" id="clearButton" value="Clear" />
 				</form>
 			</div>
@@ -80,7 +82,8 @@
 				</thead>
 				<tbody class="">
 					<tr class="aStockQuote" th:each="q : ${ALL_QUOTES.onlyOneType}">
-						<td><a th:href="@{/quotes/symbol/{symbol}(symbol=${q.symbol})}"><span
+						<td><a th:href="@{/quotes/symbol/{symbol}(symbol=${q.symbol})}"
+						         class="link-dark"><span
 									th:text="${q.symbol}"></span></a></td>
 						<td th:text="${q.name}"></td>
 						<td th:text="${q.currency}"></td>
@@ -101,13 +104,36 @@
 		crossorigin="anonymous"></script>
 
 	<script>
-		// Function to filter the table based on the search input value
-		function filterTable() {
-			var input = document.getElementById("searchInput");
+		// Function to filter the table based on the quote input value
+		function filterTableByName() {
+			var input = document.getElementById("nameInput");
 			var filter = input.value.toUpperCase();
-
+			if (filter === '') return;
 			var table = document.getElementById("dataTable");
-			var rows = table.getElementsByTagName("tr");
+			var rows = document.querySelectorAll('.aStockQuote');
+
+			// Loop through all table rows and hide those that do not match the search query
+			for (var i = 0; i < rows.length; i++) {
+				var item = rows[i].getElementsByTagName("td")[1]; // Assuming the item is in the second column
+
+				if (item) {
+					var textValue = item.textContent || item.innerText;
+					if (textValue.toUpperCase().indexOf(filter) > -1) {
+						rows[i].style.display = "";
+					} else {
+						rows[i].style.display = "none";
+					}
+				}
+			}
+		}
+				
+		// Function to filter the table based on the quote input value
+		function filterTableByQuote() {
+			var input = document.getElementById("quoteInput");
+			var filter = input.value.toUpperCase();
+			if (filter === '') return;
+			var table = document.getElementById("dataTable");
+			var rows = document.querySelectorAll('.aStockQuote');
 
 			// Loop through all table rows and hide those that do not match the search query
 			for (var i = 0; i < rows.length; i++) {
@@ -125,13 +151,16 @@
 		}
 
 		function clearInput() {
-			var input = document.getElementById("searchInput");
-			input.value = "";
-			filterTable();
+			var input = document.getElementById("quoteInput");
+			input.value = "";			
+			var input = document.getElementById("nameInput");
+			input.value = "";			
+			window.location.reload(); //vs. location.reload(true), where passing true as an argument forces the reload to fetch from the server and not from the cache.
 		}
 
 		// Attach an event listener to the search input to trigger filtering
-		document.getElementById("searchInput").addEventListener("blur", filterTable);
+		document.getElementById("quoteInput").addEventListener("blur", filterTableByQuote);
+		document.getElementById("nameInput").addEventListener("blur", filterTableByName);
 		document.getElementById("clearButton").addEventListener("click", clearInput);
 	</script>
 
