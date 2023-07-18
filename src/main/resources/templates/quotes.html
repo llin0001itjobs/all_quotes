@@ -68,8 +68,11 @@
 			<div>
 				<br />
 			</div>
-			<h3>List of Stocks for <span class="text-primary" th:text="${ALL_QUOTES.selectedCountry}"></span> with <span
-					class="text-primary" th:text="${ALL_QUOTES.selectedType}"></span></h3>
+			<h3>List of Stocks for <span class="text-primary" th:text="${ALL_QUOTES.selectedCountry}"></span>
+			<span th:if="${not #strings.isEmpty(ALL_QUOTES.selectedType)}"> 
+				with <span class="text-primary" th:text="${ALL_QUOTES.selectedType}"></span>								
+			</span>			 
+			 </h3>
 			<table class="table table-striped table-bordered" id="dataTable">
 				<thead>
 					<tr>
@@ -78,6 +81,7 @@
 						<td class="">Currency</td>
 						<td class="">Exchange</td>
 						<td class="">Mic Code</td>
+						<td th:if="${#strings.isEmpty(ALL_QUOTES.selectedType)}">Type</td>
 					</tr>
 				</thead>
 				<tbody class="">
@@ -89,6 +93,7 @@
 						<td th:text="${q.currency}"></td>
 						<td th:text="${q.exchange}"></td>
 						<td th:text="${q.mic_code}"></td>
+						<td <td th:if="${#strings.isEmpty(ALL_QUOTES.selectedType)}" th:text="${q.type}"></td>
 					</tr>
 				</tbody>
 			</table>

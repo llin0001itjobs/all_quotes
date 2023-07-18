@@ -56,7 +56,7 @@
 				<table class="d-flex justify-content-center">
 					<tbody>
 						<tr>
-							<td colspan="2">
+							<td colspan="3">
 								<select class="form-select mb-3" name="selectedCountry"
 									aria-label="Default select example" title="Country">
 									<option th:each="opt : ${ALL_QUOTES.countrySet}" th:value="${opt}"
@@ -67,7 +67,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
+							<td colspan="3">
 								<br/><br/>
 							</td>
 						</tr>						
@@ -76,7 +76,10 @@
 								<button type="submit" class="btn btn-secondary mb-3 float-start" name="submit" value="cancel">Back</button>
 							</td>
 							<td>
-								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit" value="submit">Next</button>
+								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit" value="stockType">Type</button>
+							</td>
+							<td>								
+								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit" value="listQuotes">Quotes</button>
 							</td>
 						</tr>
 					</tbody>
