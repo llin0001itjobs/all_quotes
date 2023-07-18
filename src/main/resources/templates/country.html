@@ -32,11 +32,21 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" th:href="@{/}">Twelve Quotes</a>
-		</div>
-	</nav>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/}">Twelve Quotes</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">        
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page">Country</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 	<main class="container">
 		<div class="bg-light p-5 rounded">
 			<br />
@@ -50,7 +60,7 @@
 								<select class="form-select mb-3" name="selectedCountry"
 									aria-label="Default select example" title="Country">
 									<option th:each="opt : ${ALL_QUOTES.countrySet}" th:value="${opt}"
-										th:selected="${opt == 'United States'}">
+										th:selected="${opt == ALL_QUOTES.selectedCountry}">
 										<span th:text="${opt}"></span>
 									</option>
 								</select>
@@ -63,7 +73,7 @@
 						</tr>						
 						<tr>
 							<td>
-								<button type="reset" class="btn btn-secondary mb-3 float-start" name="submit" value="cancel">Back</button>
+								<button type="submit" class="btn btn-secondary mb-3 float-start" name="submit" value="cancel">Back</button>
 							</td>
 							<td>
 								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit" value="submit">Next</button>
