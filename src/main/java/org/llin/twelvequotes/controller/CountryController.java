@@ -49,15 +49,21 @@ public class CountryController {
 												                   HttpSession session) {
 		String redirect = "redirect:/";
 
-		if (submit.equals("submit")) {
+		if (submit.equals("stockType")) {
 			redirect = "redirect:/stockType/list";
+		}
+		
+		if (submit.equals("listQuotes")) {
+			redirect = "redirect:/quotes/list";
 		}
 		
 		AllQuotes all_quotes = (AllQuotes) session.getAttribute(ALL_QUOTES);
 
 		all_quotes.setSelectedCountry(selectedCountry);
+		all_quotes.setSelectedType("");
 		all_quotes.populateForOnlySelectedCountry();
 		all_quotes.populateTypeSet();
+		all_quotes.populateForOnlySelectedType();
 		
 		session.setAttribute(ALL_QUOTES, all_quotes);
 
