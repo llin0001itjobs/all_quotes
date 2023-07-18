@@ -27,7 +27,7 @@ public class CountryController {
 	public ModelAndView getAllQuotes(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView("country");
 
-		try {
+		try {			
 			if (session.getAttribute(ALL_QUOTES) == null) {
 				JsonUtil<SingleQuote> jsonUtil = new JsonUtil<>("https://api.twelvedata.com/stocks");
 				AllQuotes all_quotes = new AllQuotes(jsonUtil.retrieveObject());
@@ -47,7 +47,7 @@ public class CountryController {
 	public String handleFormSubmission(@RequestParam("selectedCountry") String selectedCountry,
 												@RequestParam("submit") String submit,
 												                   HttpSession session) {
-		String redirect = "redirect:/country/list";
+		String redirect = "redirect:/";
 
 		if (submit.equals("submit")) {
 			redirect = "redirect:/stockType/list";

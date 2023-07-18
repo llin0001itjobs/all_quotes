@@ -32,7 +32,7 @@ public class StockTypeController {
 	public String handleFormSubmission(@RequestParam("selectedType") String selectedType,
 											 @RequestParam("submit") String submit,
 												                   HttpSession session) {
-		String redirect = "redirect:/stockType/list";
+		String redirect = "redirect:/country/list";
 
 		if (submit.equals("submit")) {
 			redirect = "redirect:/quotes/list";
@@ -40,7 +40,7 @@ public class StockTypeController {
 		
 		AllQuotes all_quotes = (AllQuotes) session.getAttribute(ALL_QUOTES);
 
-		all_quotes.setSelectedType(selectedType);
+		all_quotes.setSelectedType(selectedType); 
 		all_quotes.populateForOnlySelectedType();
 		session.setAttribute(ALL_QUOTES, all_quotes);
 
