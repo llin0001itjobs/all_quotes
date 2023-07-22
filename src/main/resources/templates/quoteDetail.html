@@ -51,13 +51,12 @@
 						<a class="nav-link active" aria-current="page">Stock List</a>
 					</li>
 				</ul>
-				<form class="d-flex" th:action="@{/signOut/submit}" method="post">
+				<form class="d-flex">
 					<input class="form-control me-2" type="text" placeholder="Quote Name" aria-label="Search"
 						id="nameInput" />					
 					<input class="form-control me-2" type="text" placeholder="Quote Symbol" aria-label="Search"
 						id="quoteInput" />
-					<input class="btn btn-outline-success me-2" type="button" id="clearButton" value="Clear" />
-					<input class="btn btn-outline-warning me-2" type="submit" id="signOut" value="Sign Out" />
+					<input class="btn btn-outline-success" type="button" id="clearButton" value="Clear" />
 				</form>
 			</div>
 		</div>

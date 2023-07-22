@@ -36,6 +36,9 @@
 		<div class="container-fluid">
 			<a class="navbar-brand" th:href="@{/}">Twelve Quotes</a>
 		</div>
+		<form class="d-flex" th:action="@{/signOut/submit}" method="post">
+			<input class="btn btn-outline-warning me-2" type="submit" id="signOut" value="Sign Out" />
+		</form>
 	</nav>
 	<main class="container">
 		<div class="bg-light p-5 rounded">
@@ -48,28 +51,30 @@
 						<tr>
 							<td colspan="2">
 								<div class="lead">
-									All qoutes are listed from https://api.twelvedata.com/stocks, at least 100K.<br/>
-									Due to sheer number of quotes, quotes can only be viewed per country and then per asset type.<br/>																	
+									All qoutes are listed from https://api.twelvedata.com/stocks, at least 100K.<br />
+									Due to sheer number of quotes, quotes can only be viewed per country and then per
+									asset type.<br />
 								</div>
 								<div>
 									<ol type="1">
 										<li>Select Country</li>
 										<li>Select Asset Type</li>
 										<li>Select a Quote</li>
-										<li>View Quote Detail</li>										
-									</ol>	
+										<li>View Quote Detail</li>
+									</ol>
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
-								<br/><br/>
+								<br /><br />
 							</td>
-						</tr>						
+						</tr>
 						<tr>
 							<td></td>
 							<td>
-								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit" value="submit">Next</button>
+								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit"
+									value="submit">Next</button>
 							</td>
 						</tr>
 					</tbody>

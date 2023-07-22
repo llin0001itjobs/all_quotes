@@ -1,4 +1,4 @@
- <!doctype html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -34,62 +34,121 @@
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Twelve Quotes</a>
+			<a class="navbar-brand" th:href="@{/}">Twelve Quotes</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
 				aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<ul class="navbar-nav sm-auto">
-				<li class="nav-item"><a class="nav-link" th:href="@{/country/list}">Country</a></li>
-			</ul>
-			<div class="collapse navbar-collapse float-end" id="navbarCollapse">
-				<form class="d-flex" action="/quotes/submit">
-					<select class="form-select form-select-sm mx-2" aria-label="Default select example" title="Type">
-						<option value="" selected disabled>Select Type</option>
-						<option th:each="opt : ${ALL_QUOTES.typeSet}" th:value="${opt}">
-							<span th:text="${opt}"></span>
-						</option>
-					</select>
-				</form>
-				<form class="d-flex">
-					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success" type="submit">Search</button>
-				</form>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/country/list}">Country</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/stockType/list}">Stock Type</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/quotes/list}">Quote List</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page">Quote Detail</a>
+					</li>
+				</ul>
 			</div>
+			<form class="d-flex" th:action="@{/signOut/submit}" method="post">
+				<input class="btn btn-outline-warning me-2" type="submit" id="signOut" value="Sign Out" />
+			</form>
 		</div>
 	</nav>
-
-	<div class="collapse navbar-collapse" id="navbarNav"></div>
 	<main class="container">
 		<div class="bg-light p-5 rounded">
 			<div>
 				<br />
 			</div>
-			<h3>List of Stocks for <span th:text="${ALL_QUOTES.selectedCountry}"></h3>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<td class="col-sm">Symbol</td>
-						<td>Name</td>
-						<td>Country</td>
-						<td>Currency</td>
-						<td>Exchange</td>
-						<td>Mic Code</td>
-						<td>Type</td>
-					</tr>
-				</thead>
-				<tbody class="">
-					<tr th:each="q : ${ALL_QUOTES.quotes}">
-						<td><a th:href="@{/quotes/symbol/{symbol}(symbol=${q.symbol})}"><span th:text="${q.symbol}"></span></a></td>
-						<td th:text="${q.name}"></td>
-						<td th:text="${q.country}"></td>
-						<td th:text="${q.currency}"></td>
-						<td th:text="${q.exchange}"></td>
-						<td th:text="${q.mic_code}"></td>
-						<td th:text="${q.type}"></td>
-					</tr>
-				</tbody>
-			</table>
+			<h3>Stock Detail for <span class="text-primary" th:text="${ALL_QUOTES.selectedSymbol}"></h3>
+			<form class="d-flex" th:action="@{/quotes/symbol/detail}" th:object="${QUOTE_DETAIL}">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>
+								<div class="input-group input-group-lg">
+									<input class="form-control" id="stockTicker" type="hidden" th:field="*{stockTicker}"
+										readonly />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="input-group input-group-lg">
+									<span class="input-group-text" id="inputGroup-sizing-lg">Multiplier (-100 to
+										100)</span>
+									<input class="form-control" id="multiplier" type="number" min="-100" max="100"
+										th:field="*{multiplier}" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="input-group-text" id="inputGroup-sizing-lg">Timespan</span>
+								<select class="form-control" id="timeSpan" th:field="*{timeSpan}">
+									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).MINUTE}"><span
+											th:text="${T(org.llin.twelvequotes.model.TimeSpan).MINUTE.unit}" /></option>
+									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).HOUR}"><span
+											th:text="${T(org.llin.twelvequotes.model.TimeSpan).HOUR.unit}" /></option>
+									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).DAY}"><span
+											th:text="${T(org.llin.twelvequotes.model.TimeSpan).DAY.unit}" /></option>
+									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).WEEK}"><span
+											th:text="${T(org.llin.twelvequotes.model.TimeSpan).WEEK.unit}" /></option>
+									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).MONTH}"><span
+											th:text="${T(org.llin.twelvequotes.model.TimeSpan).MONTH.unit}" /></option>
+									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).QUARTER}"><span
+											th:text="${T(org.llin.twelvequotes.model.TimeSpan).QUARTER.unit}" />
+									</option>
+									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).YEAR}"><span
+											th:text="${T(org.llin.twelvequotes.model.TimeSpan).YEAR.unit}" /></option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="input-group-text" id="inputGroup-sizing-lg">From Date</span>
+								<input class="form-control" id="fromDate" type="date" th:field="*{fromDate}" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="input-group-text" id="inputGroup-sizing-lg">To Date</span>
+								<input class="form-control" id="toDate" type="date" th:field="*{toDate}" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="input-group-text" id="inputGroup-sizing-lg">Adjusted</span>
+								<select class="form-control" id="adjusted" th:field="*{adjusted}">
+									<option value="true">true</option>
+									<option value="false">false</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="input-group-text" id="inputGroup-sizing-lg">Sort</span>
+								<select class="form-control" id="sort" th:field="*{sort}">
+									<option value="false">desc</option>
+									<option value="true">asc</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="input-group-text" id="inputGroup-sizing-lg">Limit (-5000 to 50000)</span>
+								<input class="form-control" id="limit" type="number" min="-5000" max="50000"
+									th:field="*{limit}" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		</div>
 
 	</main>
@@ -101,6 +160,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
 		integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
 		crossorigin="anonymous"></script>
+
 
 </body>
 
