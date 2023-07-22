@@ -15,7 +15,7 @@ public class SingleQuoteDetailRequest {
 	private String toDate;
 	private boolean adjusted = false;
 	private boolean sort = true; // asc is true, desc is false
-	private int limit = 5000; // default is 5000, max is 50000
+	private int limit = 1; // default is 5000, max is 50000
 
 	public SingleQuoteDetailRequest() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
