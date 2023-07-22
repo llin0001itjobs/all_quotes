@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Hugo 0.88.1">
+	<title>Twelve Quotes</title>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+	<!-- Custom styles for this template -->
+	<link href="../static/navbar-top-fixed.css" rel="stylesheet">
+	<style>
+		.bd-placeholder-img {
+			font-size: 2.6rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+
+		@media (min-width : 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/}">Twelve Quotes</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+				aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/country/list}">Country</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/stockType/list}">Stock Type</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/quotes/list}">Stock List</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/symbol/(selectedSymbol=${QUOTE_DETAIL_RESPONSE.ticker})}">Single
+							Quote</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page">Quote Detail</a>
+					</li>
+				</ul>
+				<form class="d-flex">
+					<input class="form-control me-2" type="text" placeholder="Quote Name" aria-label="Search"
+						id="nameInput" />
+					<input class="form-control me-2" type="text" placeholder="Quote Symbol" aria-label="Search"
+						id="quoteInput" />
+					<input class="btn btn-outline-success" type="button" id="clearButton" value="Clear" />
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<main class="container">
+		<div class="bg-light p-5 rounded">
+			<div>
+				<br />
+			</div>
+			<h3>Quote Response Detail for <span class="text-primary" th:text="${QUOTE_DETAIL_RESPONSE.ticker}">
+			</h3>
+			<table class="table">
+				<tbody>
+					<tr class="row align-items-center">
+						<td>
+							<div class="col">Query Count</div>
+							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.queryCount}"></div>
+
+						</td>
+					</tr>
+					<tr class="row align-items-center">
+						<td>
+							<div class="col">Results Count</div>
+							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.resultsCount}"></div>
+						</td>
+					</tr>
+					<tr class="row align-items-center">
+						<td>
+
+							<div class="col">Adjusted</div>
+							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.adjusted}"></div>
+						</td>
+					</tr>
+					<tr class="row align-items-center">
+						<td>
+							<div class="col">Status</div>
+							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.status}"></div>
+
+						</td>
+					</tr>
+					<tr class="row align-items-center">
+						<td>
+							<div class="col">Request Id</div>
+							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.request_id}"></div>
+
+						</td>
+					</tr>
+					<tr class="row align-items-center">
+						<td>
+							<div class="col">Count</div>
+							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.count}"></div>
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h3>Results of <span class="text-primary" th:text="${QUOTE_DETAIL_RESPONSE.ticker}"></h3>
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											<ul>
+												<li th:each="r : ${QUOTE_DETAIL_RESPONSE.results}">
+													<div class="row">
+														<div class="col">Volume Of Trade</div>
+														<div class="col" th:text="${r.volumeOfTrade}"></div>
+													</div>
+													<div class="row">
+														<div class="col">Volume Weighted Average Price</div>
+														<div class="col" th:text="${r.volumeWeightedAveragePrice}">
+														</div>
+													</div>
+													<div class="row">
+														<div class="col">Open Price</div>
+														<div class="col" th:text="${r.openPrice}"></div>
+													</div>
+													<div class="row">
+														<div class="col">Close Price</div>
+														<div class="col" th:text="${r.closePrice}"></div>
+													</div>
+													<div class="row">
+														<div class="col">Highest Price</div>
+														<div class="col" th:text="${r.highestPrice}"></div>
+													</div>
+													<div class="row">
+														<div class="col">Lowest Price</div>
+														<div class="col" th:text="${r.lowestPrice}"></div>
+													</div>
+													<div class="row">
+														<div class="col">Number Of Transactions</div>
+														<div class="col" th:text="${r.numberOfTransactions}">
+														</div>
+													</div>
+												</li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</main>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+		integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+		integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+		crossorigin="anonymous"></script>
+	</script>
+
+</body>
+
+</html>
