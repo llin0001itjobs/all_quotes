@@ -112,7 +112,6 @@ public class AllQuotes {
 			quotes = onlyOneCountry;
 		}
 		onlyOneType = quotes;	
-		System.out.println(this);
 	}
 
 	@Override

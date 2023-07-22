@@ -9,14 +9,19 @@ public enum TimeSpan {
 	QUARTER("quarter"),
 	YEAR("year");
 	
-	private final String description;
+	private String unit;
 	
-	TimeSpan(String description) {
-		this.description = description;
+	TimeSpan(String unit) {
+		this.unit = unit;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getUnit() {
+		return unit;
 	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
 	
 }
