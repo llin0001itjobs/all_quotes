@@ -1,19 +1,24 @@
 package org.llin.twelvequotes.util;
 
-import java.lang.reflect.Method;
-import org.springframework.aop.MethodBeforeAdvice;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.aspectj.lang.Signature;
+import org.springframework.stereotype.Component;
 
-public class LoggingAdvice implements MethodBeforeAdvice {
+@Aspect
+@Component
+public class LoggingAdvice {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
 
-    @Override
-    @Pointcut("execution org.llin.twelvequotes.*.*(..)")
-    public void before(Method method, Object[] args, Object target) throws Throwable {
-    	logger.info("Calling class + method: " +  method.getName().getClass().getName() + " " + method.getName());
+    @Before("execution (* org.llin.twelvequotes.*.*(..))")
+    public void before(JoinPoint joinPoint)  {
+    	Signature signature = joinPoint.getSignature();
+    	
+    	logger.info("Calling class + method: " +  signature.getClass().getName() + " " + signature.getName());
     }
     
 }
