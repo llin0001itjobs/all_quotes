@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.llin.twelvequotes.model.AllQuotes;
 import org.llin.twelvequotes.model.SingleQuote;
-import org.llin.twelvequotes.util.JsonUtil;
+import org.llin.twelvequotes.util.JsonUtilSingleQuote;
 import org.llin.twelvequotes.util.LoggingAdvice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class CountryController extends Base {
 
 		try {			
 			if (session.getAttribute(ALL_QUOTES) == null) {
-				JsonUtil<SingleQuote> jsonUtil = new JsonUtil<>("https://api.twelvedata.com/stocks");
+				JsonUtilSingleQuote<SingleQuote> jsonUtil = new JsonUtilSingleQuote<>("https://api.twelvedata.com/stocks");
 				AllQuotes all_quotes = new AllQuotes(jsonUtil.retrieveObject());
 				all_quotes.populateCountrySet();
 				session.setAttribute(ALL_QUOTES, all_quotes);
