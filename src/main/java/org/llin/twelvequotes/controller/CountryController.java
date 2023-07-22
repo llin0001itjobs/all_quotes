@@ -19,10 +19,9 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/country")
-public class CountryController {
+public class CountryController extends Base {
 	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
-	public static final String ALL_QUOTES = "ALL_QUOTES";
-
+	
 	@GetMapping("/list")
 	public ModelAndView getAllQuotes(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView("country");

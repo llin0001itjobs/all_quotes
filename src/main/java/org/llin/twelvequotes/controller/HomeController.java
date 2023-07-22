@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/home")
-public class HomeController {
+public class HomeController extends Base {
 
     @GetMapping("/instruction")
     public ModelAndView showInstruction() {

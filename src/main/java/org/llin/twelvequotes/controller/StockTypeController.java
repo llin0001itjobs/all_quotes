@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/stockType")
-public class StockTypeController {
+public class StockTypeController extends Base {
 	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
 	public static final String ALL_QUOTES = "ALL_QUOTES";
 
