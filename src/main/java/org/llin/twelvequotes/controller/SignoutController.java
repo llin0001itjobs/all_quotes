@@ -12,7 +12,7 @@ public class SignoutController {
 
 	@PostMapping("/submit")
     public String handleFormSubmission(HttpSession session) {
-		session = null;
+		session.invalidate();		
 	    return "signOut";    	    
     }    
 }
