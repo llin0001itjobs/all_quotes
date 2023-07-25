@@ -15,6 +15,8 @@ public class AllQuotes {
 	private List<SingleQuote> all;
 	private List<SingleQuote> onlyOneCountry;
 	private List<SingleQuote> onlyOneType;
+	private List<SingleQuote> list;
+	private List<List<SingleQuote>> chunkedList;
 	
 	private String selectedCountry = "United States";
 	private String selectedType = "";
@@ -25,6 +27,7 @@ public class AllQuotes {
 
 	public AllQuotes(List<SingleQuote> quotes) {
 		all = quotes;
+		list = all;
 	}
 
 	public String getSelectedCountry() {
@@ -63,6 +66,22 @@ public class AllQuotes {
 		return onlyOneType;
 	}
 
+	public List<SingleQuote> getList() {
+		return list;
+	}
+	
+	public void setList(List<SingleQuote> list) {
+		this.list = list;		
+	}	
+	
+	public List<List<SingleQuote>> getChunkedList() {
+		return chunkedList;
+	}
+
+	public void setChunkedList(List<List<SingleQuote>> chunkedList) {
+		this.chunkedList = chunkedList;
+	}
+	
 	public Set<String> getCountrySet() {
 		return countrySet;
 	}
@@ -98,6 +117,7 @@ public class AllQuotes {
 				quotes.add(q);
 			}
 			onlyOneCountry = quotes;
+			list = onlyOneCountry;
 		}
 	}
 
@@ -111,7 +131,8 @@ public class AllQuotes {
 		if (selectedType.trim().equals("")) {
 			quotes = onlyOneCountry;
 		}
-		onlyOneType = quotes;	
+		onlyOneType = quotes;
+		list = onlyOneType;
 	}
 
 	@Override
@@ -119,6 +140,6 @@ public class AllQuotes {
 		return "AllQuotes [all.size()=" + all.size() + ", onlyOneCountry=" + onlyOneCountry.size() + ", onlyOneType=" + onlyOneType.size() + ", selectedCountry=" + selectedCountry
 				+ ", selectedType=" + selectedType + ", selectedSymbol=" + selectedSymbol + ", countrySet=" + countrySet
 				+ ", typeSet=" + typeSet + "]";
-	}
+	}	
 				
 }
