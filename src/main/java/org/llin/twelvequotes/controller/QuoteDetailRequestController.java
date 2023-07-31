@@ -26,58 +26,55 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/quotes")
 public class QuoteDetailRequestController<T extends SingleQuote> extends Base {
 	private static final Logger logger = LoggerFactory.getLogger(QuoteDetailRequestController.class);
-	
-	private int LIST_INCREMENT = 20;
-	
+
+	public static final int QOUTES_PER_PAGE = 20;
+	public static final int TABS_PER_LINE = 9;
+
 	@SuppressWarnings("unchecked")
 	@GetMapping("/list")
 	public ModelAndView getAllQuotes(HttpSession session) {
-		
+
 		ModelAndView modelAndView = new ModelAndView("quotes");
-		
-		AllQuotes<T> all_quotes = (AllQuotes<T>)session.getAttribute(ALL_QUOTES);
-		
-		ChunkerUtil.chunkList(all_quotes, LIST_INCREMENT);
+
+		AllQuotes<T> all_quotes = (AllQuotes<T>) session.getAttribute(ALL_QUOTES);
+
+		ChunkerUtil.chunkList(all_quotes, QOUTES_PER_PAGE);
 		TabsUtil.generateTabs(all_quotes);
-		
+
 		modelAndView.addObject(ALL_QUOTES, all_quotes);
 		modelAndView.addObject(SEARCH_REQUEST, new SearchRequest());
-		
+
 		return modelAndView;
 	}
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/symbol/{symbol}")
-	public ModelAndView getSingleQuoteBySymbol(@PathVariable String symbol, 
-			                                            HttpSession session) {
-		
+	public ModelAndView getSingleQuoteBySymbol(@PathVariable String symbol, HttpSession session) {
+
 		SingleQuoteDetailRequest sqdR = new SingleQuoteDetailRequest();
 		sqdR.setStockTicker(symbol);
-		
+
 		ModelAndView modelAndView = new ModelAndView("quoteDetailRequest");
 
-		AllQuotes<T> all_quotes = (AllQuotes<T>)session.getAttribute(ALL_QUOTES);
+		AllQuotes<T> all_quotes = (AllQuotes<T>) session.getAttribute(ALL_QUOTES);
 		all_quotes.setSelectedSymbol(symbol);
-		
+
 		modelAndView.addObject(ALL_QUOTES, all_quotes);
 		modelAndView.addObject(QUOTE_DETAIL_REQUEST, sqdR);
 		return modelAndView;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@PostMapping("/filter")
-	public ModelAndView filterQuotes(@ModelAttribute(SEARCH_REQUEST) SearchRequest sReq,
-									                                   HttpSession session) {
-				
+	public ModelAndView filterQuotes(@ModelAttribute(SEARCH_REQUEST) SearchRequest sReq, HttpSession session) {
+
 		ModelAndView modelAndView = new ModelAndView("quotes");
 
-		AllQuotes<T> all_quotes = (AllQuotes<T>)session.getAttribute(ALL_QUOTES);
+		AllQuotes<T> all_quotes = (AllQuotes<T>) session.getAttribute(ALL_QUOTES);
 
 		List<List<SingleQuote>> chunkedList = all_quotes.getChunkedList();
 		List<SingleQuote> list = new ArrayList<>();
-		System.out.println(list.size());
-		System.out.println("sReq [" + sReq.getName() + "] [" + sReq.getSymbol() + "]");
-		
+
 		for (List<SingleQuote> l : chunkedList) {
 			for (SingleQuote s : l) {
 				if (!sReq.getName().isBlank()) {
@@ -88,21 +85,19 @@ public class QuoteDetailRequestController<T extends SingleQuote> extends Base {
 				if (!sReq.getSymbol().isBlank()) {
 					if (s.getSymbol().toUpperCase().startsWith(sReq.getSymbol().trim().toUpperCase())) {
 						list.add(s);
-					}	
+					}
 				}
-			}	
+			}
 		}
-		
-		System.out.println(list.size());
-		
+
 		if (!list.isEmpty()) {
 			all_quotes.setList(list);
-			ChunkerUtil.chunkList(all_quotes, LIST_INCREMENT);
+			ChunkerUtil.chunkList(all_quotes, QOUTES_PER_PAGE);
 			TabsUtil.generateTabs(all_quotes);
 		}
 		modelAndView.addObject(ALL_QUOTES, all_quotes);
-		
+
 		return modelAndView;
 	}
-		
+
 }
