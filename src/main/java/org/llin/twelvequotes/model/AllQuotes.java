@@ -9,7 +9,7 @@ import org.llin.twelvequotes.util.LoggingAdvice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AllQuotes {
+public class AllQuotes<T extends SingleQuote>{
 	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
 	
 	private List<SingleQuote> all;
@@ -24,7 +24,8 @@ public class AllQuotes {
 	
 	private Set<String> countrySet = new TreeSet<>();
 	private Set<String> typeSet = new TreeSet<>();
-
+	private List<List<String>> tabs = new ArrayList<>();
+	
 	public AllQuotes(List<SingleQuote> quotes) {
 		all = quotes;
 		list = all;
@@ -78,9 +79,17 @@ public class AllQuotes {
 		return chunkedList;
 	}
 
-	public void setChunkedList(List<List<SingleQuote>> chunkedList) {
-		this.chunkedList = chunkedList;
+	public void setChunkedList(List<List<SingleQuote>> list) {
+		this.chunkedList = list;
 	}
+	
+	public List<List<String>> getTabs() {
+		return tabs;
+	}
+
+	public void setTabs(List<List<String>> tabs) {
+		this.tabs = tabs;
+	}	
 	
 	public Set<String> getCountrySet() {
 		return countrySet;
@@ -93,10 +102,10 @@ public class AllQuotes {
 	public void populateCountrySet() {
 		List<String> list = new ArrayList<>();
 				
-		for (SingleQuote q : all) {		
+		for (SingleQuote q : all) {
 			if (!q.getCountry().isEmpty()) {
 				list.add(q.getCountry());
-			}
+			}			
 		}
 		countrySet = new TreeSet<>(list);
 	}
@@ -140,6 +149,8 @@ public class AllQuotes {
 		return "AllQuotes [all.size()=" + all.size() + ", onlyOneCountry=" + onlyOneCountry.size() + ", onlyOneType=" + onlyOneType.size() + ", selectedCountry=" + selectedCountry
 				+ ", selectedType=" + selectedType + ", selectedSymbol=" + selectedSymbol + ", countrySet=" + countrySet
 				+ ", typeSet=" + typeSet + "]";
-	}	
+	}
+
+
 				
 }
