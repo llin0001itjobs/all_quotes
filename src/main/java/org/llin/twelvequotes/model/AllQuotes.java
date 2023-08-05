@@ -9,14 +9,14 @@ import org.llin.twelvequotes.util.LoggingAdvice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AllQuotes<T extends SingleQuote>{
+public class AllQuotes <T extends SingleQuote>{
 	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
 	
 	private List<SingleQuote> all;
 	private List<SingleQuote> onlyOneCountry;
 	private List<SingleQuote> onlyOneType;
 	private List<SingleQuote> list;
-	private List<List<SingleQuote>> chunkedList;
+	private ChunkedList<T> chunkedList;
 	
 	private String selectedCountry = "United States";
 	private String selectedType = "";
@@ -24,7 +24,6 @@ public class AllQuotes<T extends SingleQuote>{
 	
 	private Set<String> countrySet = new TreeSet<>();
 	private Set<String> typeSet = new TreeSet<>();
-	private List<List<String>> tabs = new ArrayList<>();
 	
 	public AllQuotes(List<SingleQuote> quotes) {
 		all = quotes;
@@ -74,23 +73,15 @@ public class AllQuotes<T extends SingleQuote>{
 	public void setList(List<SingleQuote> list) {
 		this.list = list;		
 	}	
-	
-	public List<List<SingleQuote>> getChunkedList() {
+		
+	public ChunkedList<T> getChunkedList() {
 		return chunkedList;
 	}
 
-	public void setChunkedList(List<List<SingleQuote>> list) {
-		this.chunkedList = list;
-	}
-	
-	public List<List<String>> getTabs() {
-		return tabs;
+	public void setChunkedList(ChunkedList<T> chunkedList) {
+		this.chunkedList = chunkedList;
 	}
 
-	public void setTabs(List<List<String>> tabs) {
-		this.tabs = tabs;
-	}	
-	
 	public Set<String> getCountrySet() {
 		return countrySet;
 	}

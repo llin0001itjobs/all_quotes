@@ -3,7 +3,7 @@ package org.llin.twelvequotes.model;
 //based on https://api.twelvedata.com/stocks
 public class SingleQuote {
 	
-	private int id;
+	private int id;			//reserved for backend
 	private String symbol;
 	private String name;
 	private String currency;
@@ -11,6 +11,12 @@ public class SingleQuote {
 	private String mic_code;
 	private String country;
 	private String type;
+	
+	/* Related to pagination */
+	private String firstSymbol;	
+	private String lastSymbol;
+	private int groupIndex;
+	private int quoteIndex;
 	
 	public int getId() {
 		return id;
@@ -61,11 +67,40 @@ public class SingleQuote {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
+	public String getFirstSymbol() {
+		return firstSymbol;
+	}
+	public void setFirstSymbol(String firstSymbol) {
+		this.firstSymbol = firstSymbol;
+	}
+	public String getLastSymbol() {
+		return lastSymbol;
+	}
+	public void setLastSymbol(String lastSymbol) {
+		this.lastSymbol = lastSymbol;
+	}
+	public String getTab() {
+		return firstSymbol + "-" + lastSymbol;
+	}
+	public int getGroupIndex() {
+		return groupIndex;
+	}
+	public void setGroupIndex(int groupIndex) {
+		this.groupIndex = groupIndex;
+	}
+	public int getQuoteIndex() {
+		return quoteIndex;
+	}
+	public void setQuoteIndex(int quoteIndex) {
+		this.quoteIndex = quoteIndex;
+	}
 	@Override
 	public String toString() {
 		return "SingleQuote [id=" + id + ", symbol=" + symbol + ", name=" + name + ", currency=" + currency
-				+ ", exchange=" + exchange + ", mic_code=" + mic_code + ", country=" + country + ", type=" + type + "]";
+				+ ", exchange=" + exchange + ", mic_code=" + mic_code + ", country=" + country + ", type=" + type
+				+ ", firstSymbol=" + firstSymbol + ", lastSymbol=" + lastSymbol + ", groupIndex=" + groupIndex
+				+ ", quoteIndex=" + quoteIndex + "]";
 	}
 	
 }
