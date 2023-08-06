@@ -74,7 +74,7 @@
 				</span>
 			</h3>
 		</div>
-
+	  
 		<!-- The tab component -->
 		<div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-touch="false"
 			data-bs-interval="false">
@@ -85,7 +85,6 @@
       				                aria-selected=${grpStat.index==0?'true':'false'}"></button>
 			</div>
 			<div class="carousel-inner">
-
 				<div class="carousel-item" th:each="grp, grpStat : ${ALL_QUOTES.chunkedList.groupOfLists}"
 					th:classappend="${grpStat.index == 0 ? 'active' : ''}">
 

@@ -69,94 +69,91 @@
 			</div>
 			<h3>Quote Response Detail for <span class="text-primary" th:text="${QUOTE_DETAIL_RESPONSE.ticker}">
 			</h3>
-			<table class="table">
+			<table class="table small">
 				<tbody>
 					<tr class="row align-items-center">
-						<td>
-							<div class="col">Query Count</div>
-							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.queryCount}"></div>
-
-						</td>
+						<td class="col-4">Query Count</td>
+						<td class="col-8" th:text="${QUOTE_DETAIL_RESPONSE.queryCount}"></td>
 					</tr>
 					<tr class="row align-items-center">
-						<td>
-							<div class="col">Results Count</div>
-							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.resultsCount}"></div>
-						</td>
+						<td class="col-4">Results Count</td>
+						<td class="col-8" th:text="${QUOTE_DETAIL_RESPONSE.resultsCount}"></td>
 					</tr>
 					<tr class="row align-items-center">
-						<td>
-
-							<div class="col">Adjusted</div>
-							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.adjusted}"></div>
-						</td>
+						<td class="col-4">Adjusted</td>
+						<td class="col-8" th:text="${QUOTE_DETAIL_RESPONSE.adjusted}"></td>
 					</tr>
 					<tr class="row align-items-center">
-						<td>
-							<div class="col">Status</div>
-							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.status}"></div>
-
-						</td>
+						<td class="col-4">Status</td>
+						<td class="col-8" th:text="${QUOTE_DETAIL_RESPONSE.status}"></td>
 					</tr>
 					<tr class="row align-items-center">
-						<td>
-							<div class="col">Request Id</div>
-							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.request_id}"></div>
-
-						</td>
+						<td class="col-4">Request Id</td>
+						<td class="col-8" th:text="${QUOTE_DETAIL_RESPONSE.request_id}"></td>
 					</tr>
 					<tr class="row align-items-center">
-						<td>
-							<div class="col">Count</div>
-							<div class="col" th:text="${QUOTE_DETAIL_RESPONSE.count}"></div>
-
-						</td>
+						<td class="col-4">Count</td>
+						<td class="col-8" th:text="${QUOTE_DETAIL_RESPONSE.count}"></td>
 					</tr>
 					<tr>
 						<td>
-							<h3>Results of <span class="text-primary" th:text="${QUOTE_DETAIL_RESPONSE.ticker}"></h3>
-							<table class="table">
-								<tbody>
-									<tr>
-										<td>
-											<ul>
-												<li th:each="r : ${QUOTE_DETAIL_RESPONSE.results}">
-													<div class="row">
-														<div class="col">Volume Of Trade</div>
-														<div class="col" th:text="${r.volumeOfTrade}"></div>
-													</div>
-													<div class="row">
-														<div class="col">Volume Weighted Average Price</div>
-														<div class="col" th:text="${r.volumeWeightedAveragePrice}">
-														</div>
-													</div>
-													<div class="row">
-														<div class="col">Open Price</div>
-														<div class="col" th:text="${r.openPrice}"></div>
-													</div>
-													<div class="row">
-														<div class="col">Close Price</div>
-														<div class="col" th:text="${r.closePrice}"></div>
-													</div>
-													<div class="row">
-														<div class="col">Highest Price</div>
-														<div class="col" th:text="${r.highestPrice}"></div>
-													</div>
-													<div class="row">
-														<div class="col">Lowest Price</div>
-														<div class="col" th:text="${r.lowestPrice}"></div>
-													</div>
-													<div class="row">
-														<div class="col">Number Of Transactions</div>
-														<div class="col" th:text="${r.numberOfTransactions}">
-														</div>
-													</div>
-												</li>
-											</ul>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+							<h3>Results of Stock Quote <span class="text-primary" th:text="${QUOTE_DETAIL_RESPONSE.ticker}">
+							</h3>
+							<div class="accordion" id="accordionPanelsStayOpenExample">
+								<div class="accordion-item" th:each="r, rStat : ${QUOTE_DETAIL_RESPONSE.results}">
+									<h2 class="accordion-header" th:attr="id='panelsStayOpen-' + ${rStat.index}">
+										<button class="accordion-button" type="button" data-bs-toggle="collapse"
+											th:attr="id='panelsStayOpen-' + ${rStat.index},
+							    data-bs-target='#panelsStayOpen-collapse-' + ${rStat.index},
+							     aria-controls='panelsStayOpen-collapse-' + ${rStat.index},											
+								 aria-expanded=${rStat.index == 0 ? 'true' : 'false'}">
+											Result #<span th:text="${rStat.index +  1}"></span>
+										</button>
+									</h2>
+									<div class="accordion-collapse collapse"
+										th:classappend="${rStat.index == 0 ? 'show' : ''}" 
+									   th:attr="id='panelsStayOpen-collapse-' + ${rStat.index},
+								   aria-labelledby='panelsStayOpen-heading-' + ${rStat.index}">
+										<div class="accordion-body">
+											<table class="table">
+												<tbody>
+													<tr>
+														<td class="col-4">Volume Of Trade</td>
+														<td class="col-8" th:text="${r.volumeOfTrade}"></td>
+													</tr>
+													<tr>
+														<td class="col-4">Volume Weighted Average Price</td>
+														<td class="col-8" th:text="${r.volumeWeightedAveragePrice}">
+														</td>
+													</tr>
+													<tr>
+														<td class="col-4">Open Price</td>
+														<td class="col-8" th:text="${r.openPrice}"></td>
+													</tr>
+													<tr>
+														<td class="col-4">Close Price</td>
+														<td class="col-8" th:text="${r.closePrice}"></td>
+													</tr>
+													<tr>
+														<td class="col-4">Highest Price</td>
+														<td class="col-8" th:text="${r.highestPrice}"></td>
+													</tr>
+													<tr>
+														<td class="col-4">Lowest Price</td>
+														<td class="col-8" th:text="${r.lowestPrice}"></td>
+													</tr>
+													<tr>
+														<td class="col-4">Number Of Transactions</td>
+														<td class="col-8" th:text="${r.numberOfTransactions}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
 						</td>
 					</tr>
 				</tbody>
