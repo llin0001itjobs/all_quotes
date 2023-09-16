@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/country")
-public class CountryController extends Base {
+public class CountryController<T extends SingleQuote> extends Base {
 	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
 	
 	@GetMapping("/list")
@@ -29,7 +29,7 @@ public class CountryController extends Base {
 		try {			
 			if (session.getAttribute(ALL_QUOTES) == null) {
 				JsonUtilSingleQuote<SingleQuote> jsonUtil = new JsonUtilSingleQuote<>("https://api.twelvedata.com/stocks");
-				AllQuotes all_quotes = new AllQuotes(jsonUtil.retrieveObject());
+				AllQuotes<T> all_quotes = new AllQuotes<>(jsonUtil.retrieveObject());
 				all_quotes.populateCountrySet();
 				session.setAttribute(ALL_QUOTES, all_quotes);
 			}
@@ -42,6 +42,7 @@ public class CountryController extends Base {
 		return modelAndView;
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostMapping("/submit")
 	public String handleFormSubmission(@RequestParam("selectedCountry") String selectedCountry,
 												@RequestParam("submit") String submit,
@@ -56,7 +57,7 @@ public class CountryController extends Base {
 			redirect = "redirect:/quotes/list";
 		}
 		
-		AllQuotes all_quotes = (AllQuotes) session.getAttribute(ALL_QUOTES);
+		AllQuotes<T> all_quotes = (AllQuotes<T>) session.getAttribute(ALL_QUOTES);
 
 		all_quotes.setSelectedCountry(selectedCountry);
 		all_quotes.setSelectedType("");

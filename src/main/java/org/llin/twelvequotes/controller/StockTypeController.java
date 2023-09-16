@@ -1,6 +1,7 @@
 package org.llin.twelvequotes.controller;
 
 import org.llin.twelvequotes.model.AllQuotes;
+import org.llin.twelvequotes.model.SingleQuote;
 import org.llin.twelvequotes.util.LoggingAdvice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,15 +16,16 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/stockType")
-public class StockTypeController extends Base {
+public class StockTypeController<T extends SingleQuote> extends Base {
 	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
 	public static final String ALL_QUOTES = "ALL_QUOTES";
 
+	@SuppressWarnings("unchecked")
 	@GetMapping("/list")
 	public ModelAndView getAllQuotes(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView("stockType");
 		
-		modelAndView.addObject(ALL_QUOTES, (AllQuotes) session.getAttribute(ALL_QUOTES));	
+		modelAndView.addObject(ALL_QUOTES, (AllQuotes<T>) session.getAttribute(ALL_QUOTES));	
 
 		return modelAndView;
 	}
