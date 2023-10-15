@@ -47,7 +47,7 @@
 				</ul>
 			</div>
 			<form class="d-flex" th:action="@{/signOut/submit}" method="post">
-				<input class="btn btn-outline-warning me-2" type="submit" id="signOut" value="Sign Out" />
+				<input class="btn btn-outline-info me-2" type="submit" id="signOut" value="Sign Out" />
 			</form>
 		</div>
 	</nav>
@@ -60,7 +60,7 @@
 				<table class="d-flex justify-content-center">
 					<tbody>
 						<tr>
-							<td colspan="3">
+							<td colspan="2">
 								<select class="form-select mb-3" name="selectedCountry"
 									aria-label="Default select example" title="Country">
 									<option th:each="opt : ${ALL_QUOTES.countrySet}" th:value="${opt}"
@@ -71,7 +71,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="3">
+							<td colspan="2">
 								<br /><br />
 							</td>
 						</tr>
@@ -84,10 +84,10 @@
 								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit"
 									value="stockType">Type</button>
 							</td>
-							<td>
+							<!--td>
 								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit"
 									value="listQuotes">Quotes</button>
-							</td>
+							</td-->
 						</tr>
 					</tbody>
 				</table>

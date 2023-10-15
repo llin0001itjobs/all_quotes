@@ -28,6 +28,23 @@
         <div class="text-center">
             <h1 class="error-message">Oops! Something went wrong.</h1>
             <p class="lead">We apologize for the inconvenience. Please try again later.</p>
+			<form class="d-flex" th:action="@{/home/instruction}" method="get">
+				<table class="d-flex justify-content-center">
+					<tbody>
+						<tr>
+							<td colspan="2">
+								<br /><br />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="submit" class="btn btn-secondary mb-3 float-start" name="submit"
+									value="submit">Home</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>            
         </div>
     </div>
 
