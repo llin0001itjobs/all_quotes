@@ -51,14 +51,17 @@
 						<a class="nav-link" th:href="@{/quotes/list}">Stock List</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/symbol/(selectedSymbol=${QUOTE_DETAIL_RESPONSE.ticker})}">Single
-							Quote</a>
+						<a class="nav-link" th:href="@{/quotes/symbol/{ticker}(ticker=${QUOTE_DETAIL_RESPONSE.ticker})}">Single
+							Quote</a>							
 					</li>
 					<li class="nav-item">
 						<a class="nav-link active" aria-current="page">Quote Detail</a>
 					</li>
 				</ul>
 			</div>
+			<form class="d-flex" th:action="@{/signOut/submit}" method="post">
+				<input class="btn btn-outline-info me-2" type="submit" id="signOut" value="Sign Out" />
+			</form>			
 		</div>
 	</nav>
 

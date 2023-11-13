@@ -14,6 +14,7 @@
 
 	<!-- Custom styles for this template -->
 	<link href="../static/navbar-top-fixed.css" rel="stylesheet">
+
 	<style>
 		.bd-placeholder-img {
 			font-size: 2.6rem;
@@ -29,7 +30,7 @@
 			}
 		}
 	</style>
-
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <body>
@@ -54,11 +55,10 @@
 				</ul>
 				<form class="d-flex" th:action="@{/quotes/filter}" th:object="${SEARCH_REQUEST}" method="post">
 					<input class="form-control me-2" type="text" placeholder="Quote Name" th:field="*{name}" />
-					<input class="form-control me-2" type="text" placeholder="Quote Symbol" th:field="*{symbol}" />
 					<input class="btn btn-outline-success me-2" type="submit" id="search" value="Search" />
 				</form>
 				<form class="d-flex" th:action="@{/signOut/submit}" method="post">
-					<input class="btn btn-outline-warning me-2" type="submit" id="signOut" value="Sign Out" />
+					<input class="btn btn-outline-info me-2" type="submit" id="signOut" value="Sign Out" />
 				</form>
 			</div>
 		</div>
@@ -67,22 +67,25 @@
 
 	<main class="container">
 		<div class="pt-5">
-			<br/>
+			<br />
 			<h3>List of Stocks for <span class="text-primary" th:text="${ALL_QUOTES.selectedCountry}"></span>
 				<span th:if="${not #strings.isEmpty(ALL_QUOTES.selectedType)}">
 					with <span class="text-primary" th:text="${ALL_QUOTES.selectedType}"></span>
 				</span>
 			</h3>
 		</div>
-	  
+
 		<!-- The tab component -->
 		<div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-touch="false"
 			data-bs-interval="false">
 			<div class="carousel-indicators">
 				<button th:each="grp, grpStat : ${ALL_QUOTES.chunkedList.groupOfLists}" type="button"
-					data-bs-target="#myCarousel" th:classappend="${grpStat.index == 0 ? 'active' : ''}" th:attr="data-bs-slide-to=${grpStat.index}, 
+					data-bs-target="#myCarousel"
+					th:classappend="${grpStat.index == 0 ? 'carousel-button active' : 'carousel-button'}" 
+						th:attr="data-bs-slide-to=${grpStat.index}, 
       				                   aria-label=${grpStat.index+1},
-      				                aria-selected=${grpStat.index==0?'true':'false'}"></button>
+      				                aria-selected=${grpStat.index==0?'true':'false'},
+      				                           id='carousel-button-' + ${grpStat.index+1}"></button>
 			</div>
 			<div class="carousel-inner">
 				<div class="carousel-item" th:each="grp, grpStat : ${ALL_QUOTES.chunkedList.groupOfLists}"
@@ -95,13 +98,11 @@
 
 					<div class="container">
 						<div class="carousel-caption small">
-							<ul class="nav nav-pills small" id="myTab2" role="tablist">
-								<li th:each="tab : ${grp.list}" class="nav-item"
-									role="presentation">
-									<a class="nav-link" th:classappend="${tabStat.index == 0 ? 'active' : ''}"
-										th:id="'tab-' + ${tab.index}" data-bs-toggle="tab"
+							<ul class="nav nav-pills small" th:id="'pill-list-' + ${grpStat.index+1}" role="tablist">
+								<li th:each="tab : ${grp.list}" class="nav-item" role="presentation">
+									<a class="nav-link" th:id="'tab-' + ${grpStat.index+1} + '-' + ${tab.index}" data-bs-toggle="tab"
 										th:href="'#content-' + ${tab.index}" role="tab"
-										th:attr="aria-controls='content-' + ${tab.index}" aria-selected="true">
+										th:attr="aria-controls='content-' + ${tab.index}" aria-selected="false">
 										<span th:text="${tab.tabLabel}"></span>
 									</a>
 								</li>
@@ -112,11 +113,13 @@
 
 			</div>
 
-			<button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+			<button id="carousel-control-prev" class="carousel-control-prev" type="button" data-bs-target="#myCarousel"
+				data-bs-slide="prev">
 				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 				<span class="visually-hidden">Previous</span>
 			</button>
-			<button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+			<button id="carousel-control-next" class="carousel-control-next" type="button" data-bs-target="#myCarousel"
+				data-bs-slide="next">
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 				<span class="visually-hidden">Next</span>
 			</button>
@@ -156,6 +159,58 @@
 
 		</div>
 	</main>
+
+	<script>
+		window.addEventListener('load', function () {
+			var carouselLeft = document.getElementById('carousel-control-prev');
+			carouselLeft.addEventListener('click', function (e) {
+				deactivateCarouselPills();
+				activateCarouselFirstPill();
+				
+			});
+			var carouselRight = document.getElementById('carousel-control-next');
+			carouselRight.addEventListener('click', function (e) {
+				deactivateCarouselPills();
+				activateCarouselFirstPill();
+				
+			});
+
+			var carouselElements = document.getElementsByClassName('carousel-button');
+			for (var i = 0; i < carouselElements.length; i++) {
+				carouselElements[i].addEventListener('click', function (e) {
+					deactivateCarouselPills();
+					activateCarouselFirstPill();					
+				});
+			}
+
+		});
+
+		function activateCarouselFirstPill() {
+			var elem = document.querySelector("button.carousel-button.active");
+			var index = elem.id.substring(elem.id.lastIndexOf('-') + 1);
+			var ul = document.querySelector('#pill-list-' + index);
+			var li = ul.querySelector('li:nth-child(1)');
+			li.classList.add('active');
+			var anchor = li.querySelector('a');
+			anchor.click();		
+			anchor.setAttribute('aria-selected','true');
+			anchor.classList.add('active');											
+		}
+
+		function deactivateCarouselPills() {
+			var ulElements = document.querySelectorAll('ul.nav-pills');
+			ulElements.forEach(function (ul) {
+				var li = ul.querySelector('li:nth-child(1)');
+				li.classList.remove('active');				
+			});			
+			var anchorElements = document.querySelectorAll('ul.nav-pills a');
+			anchorElements.forEach(function (a) {
+				a.classList.remove('active');				
+				a.setAttribute('aria-selected','false');
+			});
+		}			
+	</script>
+
 
 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"

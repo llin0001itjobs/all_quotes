@@ -56,7 +56,7 @@
 				</ul>
 			</div>
 			<form class="d-flex" th:action="@{/signOut/submit}" method="post">
-				<input class="btn btn-outline-warning me-2" type="submit" id="signOut" value="Sign Out" />
+				<input class="btn btn-outline-info me-2" type="submit" id="signOut" value="Sign Out" />
 			</form>
 		</div>
 	</nav>
@@ -80,70 +80,39 @@
 						<tr>
 							<td>
 								<div class="input-group input-group-lg">
-									<span class="input-group-text" id="inputGroup-sizing-lg">Multiplier (-100 to
-										100)</span>
-									<input class="form-control" id="multiplier" type="number" min="-100" max="100"
-										th:field="*{multiplier}" />
+									<span class="input-group-text" id="inputGroup-sizing-lg">From Date</span>
+									<input class="form-control" id="period1" type="date" 
+										th:field="*{period1}" />
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<span class="input-group-text" id="inputGroup-sizing-lg">Timespan</span>
-								<select class="form-control" id="timeSpan" th:field="*{timeSpan}">
-									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).MINUTE}"><span
-											th:text="${T(org.llin.twelvequotes.model.TimeSpan).MINUTE.unit}" /></option>
-									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).HOUR}"><span
-											th:text="${T(org.llin.twelvequotes.model.TimeSpan).HOUR.unit}" /></option>
-									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).DAY}"><span
-											th:text="${T(org.llin.twelvequotes.model.TimeSpan).DAY.unit}" /></option>
-									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).WEEK}"><span
-											th:text="${T(org.llin.twelvequotes.model.TimeSpan).WEEK.unit}" /></option>
-									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).MONTH}"><span
-											th:text="${T(org.llin.twelvequotes.model.TimeSpan).MONTH.unit}" /></option>
-									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).QUARTER}"><span
-											th:text="${T(org.llin.twelvequotes.model.TimeSpan).QUARTER.unit}" />
-									</option>
-									<option th:value="${T(org.llin.twelvequotes.model.TimeSpan).YEAR}"><span
-											th:text="${T(org.llin.twelvequotes.model.TimeSpan).YEAR.unit}" /></option>
+								<div class="input-group input-group-lg">
+									<span class="input-group-text" id="inputGroup-sizing-lg">To Date</span>
+									<input class="form-control" id="period2" type="date"
+										th:field="*{period2}" />
+								</div>
+							</td>
+						</tr>						
+						<tr>
+							<td>
+								<span class="input-group-text" id="inputGroup-sizing-lg">Interval</span>
+								<select class="form-control" id="interval" th:field="*{interval}">
+									<option value="1d">One Day</option>
+									<option value="1wk">One Week</option>
+									<option value="1mo">One Month</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<span class="input-group-text" id="inputGroup-sizing-lg">From Date</span>
-								<input class="form-control" id="fromDate" type="date" th:field="*{fromDate}" />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<span class="input-group-text" id="inputGroup-sizing-lg">To Date</span>
-								<input class="form-control" id="toDate" type="date" th:field="*{toDate}" />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<span class="input-group-text" id="inputGroup-sizing-lg">Adjusted</span>
-								<select class="form-control" id="adjusted" th:field="*{adjusted}">
-									<option value="true">true</option>
-									<option value="false">false</option>
+								<span class="input-group-text" id="inputGroup-sizing-lg">Event</span>
+								<select class="form-control" id="events" th:field="*{events}">				
+									<option value="history">History</option>
+									<option value="div">Div</option>
+									<option value="split">Split</option>
 								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<span class="input-group-text" id="inputGroup-sizing-lg">Sort</span>
-								<select class="form-control" id="sort" th:field="*{sort}">
-									<option value="false">desc</option>
-									<option value="true">asc</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<span class="input-group-text" id="inputGroup-sizing-lg">Limit (1 to 5)</span>
-								<input class="form-control" id="limit" type="number" min="1" max="5"
-									th:field="*{limit}" />
 							</td>
 						</tr>
 						<tr>
