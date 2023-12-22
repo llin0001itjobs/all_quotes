@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Hugo 0.88.1">
+	<title>Twelve Quotes</title>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+	<!-- Custom styles for this template -->
+	<link th:href="@{/css/navbar-top-fixed.css}" rel="stylesheet" type="text/css">
+	<style>
+		.bd-placeholder-img {
+			font-size: 2.6rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+
+		@media (min-width : 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+
+		image.icon {
+			border: 2px black solid;
+		}
+
+		#jsonText {
+			display: none;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/}">Twelve Quotes</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+				aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/country/list}">Country</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/stockType/list}">Stock Type</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/quotes/list}">Stock List</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/quotes/symbol/{ticker}(ticker=${QUOTE_RESPONSE.ticker})}">Single
+							Quote</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page">Quote Detail</a>
+					</li>
+				</ul>
+			</div>
+			<form class="d-flex" th:action="@{/signOut/submit}" method="post">
+				<input class="btn btn-outline-info me-2" type="submit" id="signOut" value="Sign Out" />
+			</form>
+		</div>
+	</nav>
+
+	<main class="container">
+		<div>
+			<br />
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col justify-content-start">
+					<h3>Results of Stock Quote <span class="text-primary" th:text="${QUOTE_RESPONSE.ticker}">
+					</h3>
+				</div>
+				<div class="col justify-content-end">
+					<img class="icon" th:src="@{/images/line-graph-icon.png}" width="25px" height="25px" />
+				</div>
+			</div>
+		</div>
+		<div class="bg-light p-5 rounded">
+			<div th:id="jsonText" th:text="${QUOTE_RESPONSE.jsonText}"></div>
+			<canvas th:id='chart' width="700" height="400"></canvas>
+			<script th:inline="text">
+				var jsonText = document.getElementById('jsonText').innerHTML;
+				const jsonArray = JSON.parse(jsonText);
+				var dates = jsonArray.map(function (item) {return item.date;});
+				var highData = jsonArray.map(function (item) {return item.high;});
+				var lowData = jsonArray.map(function (item) {return item.low;});
+				var openData = jsonArray.map(function (item) {return item.open;});
+				var closeData = jsonArray.map(function (item) {return item.close;});
+				var volumeData = jsonArray.map(function (item) {return item.volume;});
+				var adjustedCloseData = jsonArray.map(function (item) {return item.adjustedClose;});
+				var ctx = document.getElementById('chart').getContext('2d');
+				var chart = new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: dates,
+						datasets: [
+							{
+								label: 'Open Prices',
+								data: openData,
+								borderColor: 'red',
+								fill: false
+							},
+							{
+								label: 'Close Prices',
+								data: closeData,
+								borderColor: 'blue',
+								fill: false
+							},
+							{
+								label: 'High Prices',
+								data: highData,
+								borderColor: 'orange',
+								fill: false
+							},
+							{
+								label: 'Low Prices',
+								data: lowData,
+								borderColor: 'green',
+								fill: false
+							},
+							{
+								label: 'Volume',
+								data: volumeData,
+								borderColor: 'black',
+								fill: false
+							},
+							{
+								label: 'Adjusted Close Prices',
+								data: adjustedCloseData,
+								borderColor: 'cyan',
+								fill: false
+							}
+						]
+					}, options: {
+						scales: {
+							y: {
+								beginAtZero: true
+							}
+						}
+					}
+				});
+			</script>
+		</div>
+	</main>
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

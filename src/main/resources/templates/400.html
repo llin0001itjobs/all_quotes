@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +29,7 @@
         <div class="text-center">
             <h1 class="error-message">Oops! Something went wrong.</h1>
             <p class="lead">We apologize for the inconvenience. Please try again later.</p>
+            <p class="lead" th:text="${RESPONSE_ENTITY.body}"></p>
 			<form class="d-flex" th:action="@{/home/instruction}" method="get">
 				<table class="d-flex justify-content-center">
 					<tbody>

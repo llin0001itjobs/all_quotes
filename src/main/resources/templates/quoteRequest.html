@@ -1,4 +1,4 @@
-<!doctype html>
+	<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -41,7 +41,16 @@
 			<div class="collapse navbar-collapse" id="navbarCollapse">
 				<ul class="navbar-nav me-auto mb-2 mb-md-0">
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page">Country</a>
+						<a class="nav-link" th:href="@{/country/list}">Country</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/stockType/list}">Stock Type</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/quotes/list}">Quote List</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page">Single Quote</a>
 					</li>
 				</ul>
 			</div>
@@ -52,51 +61,76 @@
 	</nav>
 	<main class="container">
 		<div class="bg-light p-5 rounded">
-			<br />
-			<h1>Select a Country</h1>
-			<br />
-			<form class="d-flex" th:action="@{/country/submit}" method="post">
-				<table class="d-flex justify-content-center">
+			<div>
+				<br />
+			</div>
+			<h3>Stock Quote Detail for <span class="text-primary" th:text="${ALL_QUOTES.selectedSymbol}"></h3>
+			<form class="d-flex" th:action="@{/quoteDetail/display}" th:object="${QUOTE_REQUEST}" method="post">
+				<table class="table">
 					<tbody>
 						<tr>
-							<td colspan="2">
-								<select class="form-select mb-3" name="selectedCountry"
-									aria-label="Default select example" title="Country">
-									<option th:each="opt : ${ALL_QUOTES.countrySet}" th:value="${opt}"
-										th:selected="${opt == ALL_QUOTES.selectedCountry}">
-										<span th:text="${opt}"></span>
-									</option>
+							<td>
+								<div class="input-group input-group-lg">
+									<input class="form-control" id="stockTicker" type="hidden" th:field="*{stockTicker}"
+										readonly />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="input-group input-group-lg">
+									<span class="input-group-text" id="inputGroup-sizing-lg">From Date</span>
+									<input class="form-control" id="period1" type="date" 
+										th:field="*{period1}" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="input-group input-group-lg">
+									<span class="input-group-text" id="inputGroup-sizing-lg">To Date</span>
+									<input class="form-control" id="period2" type="date"
+										th:field="*{period2}" />
+								</div>
+							</td>
+						</tr>						
+						<tr>
+							<td>
+								<span class="input-group-text" id="inputGroup-sizing-lg">Interval</span>
+								<select class="form-control" id="interval" th:field="*{interval}">
+									<option value="1d">One Day</option>
+									<option value="1wk">One Week</option>
+									<option value="1mo">One Month</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
-								<br /><br />
+							<td>
+								<span class="input-group-text" id="inputGroup-sizing-lg">Event</span>
+								<select class="form-control" id="events" th:field="*{events}">				
+									<option value="history">History</option>
+									<option value="div">Div</option>
+									<option value="split">Split</option>
+								</select>
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<button type="submit" class="btn btn-secondary mb-3 float-start" name="submit"
-									value="cancel">Back</button>
-							</td>
-							<td>
+							<td colspan="3">
 								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit"
-									value="stockType">Type</button>
+									value="showQuoteDetail">Next</button>
 							</td>
-							<!--td>
-								<button type="submit" class="btn btn-primary mb-3 float-end" name="submit"
-									value="listQuotes">Quotes</button>
-							</td-->
 						</tr>
 					</tbody>
 				</table>
 			</form>
 		</div>
+
 	</main>
 
 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
 
 </body>
 
