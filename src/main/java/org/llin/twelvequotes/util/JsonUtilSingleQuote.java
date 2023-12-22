@@ -14,11 +14,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component
 public class JsonUtilSingleQuote<T extends SingleQuote> {
 	    
     private String urlApi;
-    private boolean failed;
     
     private static final String ARRAY_PARENT = "data";
 	
@@ -29,21 +27,14 @@ public class JsonUtilSingleQuote<T extends SingleQuote> {
 	public JsonUtilSingleQuote(String urlApi) {
 		this.urlApi = urlApi;
 	}
-		
-	public boolean isFailed() {
-		return failed;
-	}
 
-	@Scheduled(cron = "0 0 0 * 0 ?") //Midnight every Sunday
 	public List<T> retrieveObject() throws IOException {
 		List<T> list = new ArrayList<>();
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(urlApi, String.class);		
 		if (!response.getStatusCode().is2xxSuccessful()) {
-			failed = true;
 			return list;				
 		}
-		failed = false;
 		return mapJsonText(response.getBody());
 	}
 

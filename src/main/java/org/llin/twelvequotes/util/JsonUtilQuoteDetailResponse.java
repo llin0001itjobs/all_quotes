@@ -4,69 +4,102 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.llin.twelvequotes.model.SingleQuoteDetailResponse;
+import org.llin.twelvequotes.model.QuoteDetailResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.opencsv.exceptions.CsvValidationException;
 
 @Component
 public class JsonUtilQuoteDetailResponse {
-	    
+	
+	private ResponseEntity<String> responseEntity = null;
     private String urlApi;
-    private boolean failed;
+    
+    private List<QuoteDetailResponse> list = new ArrayList<>();
 	
 	public JsonUtilQuoteDetailResponse() {}
 		
 	public JsonUtilQuoteDetailResponse(String urlApi) {
 		this.urlApi = urlApi;
 	}
-		
-	public boolean isFailed() {
-		return failed;
-	}
-
-	public SingleQuoteDetailResponse retrieveObject() throws IOException {
-		SingleQuoteDetailResponse sqdResponse = new SingleQuoteDetailResponse();
-		RestTemplate restTemplate = new RestTemplate();
-		
-		System.out.println(urlApi);
-		ResponseEntity<String> response = restTemplate.getForEntity(urlApi, String.class);		
-		if (!response.getStatusCode().is2xxSuccessful()) {
-			failed = true;
-			return sqdResponse;
+			
+	public List<QuoteDetailResponse> retrieveObject() throws IOException, CsvValidationException, NumberFormatException, HttpClientErrorException {
+		if (list.size() > 0) {
+			return list;
 		}
-		failed = false;
+		RestTemplate restTemplate = new RestTemplate();
+
+		responseEntity = restTemplate.getForEntity(urlApi, String.class);		
+		HttpStatusCode sc = responseEntity.getStatusCode();
 		
-		return mapJsonText(response.getBody());
+		if (!sc.is2xxSuccessful()) {
+			return list;
+		}
+		list = mapJsonText(responseEntity.getBody());
+		return list;		
 	}
 
-	SingleQuoteDetailResponse mapJsonText(String jsonText) throws IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		SingleQuoteDetailResponse sqdResponse = objectMapper.readValue(jsonText, SingleQuoteDetailResponse.class);
-
-
-		return sqdResponse; 
+	public String retrieveJson() throws IOException, CsvValidationException, NumberFormatException {			
+		return CsvUtil.convertCsvToJson(retrieveObject());		
+	}
+	
+	List<QuoteDetailResponse> mapJsonText(String jsonText) throws IOException, CsvValidationException, NumberFormatException {	
+		return CsvUtil.convertCsvToList(null,jsonText); 
 	}
 
+	public void clearList() {
+		list.clear();
+	}
+	
+	public String getUrlApi() {
+		return urlApi;
+	}
+
+	public void setUrlApi(String urlApi) {
+		this.urlApi = urlApi;
+	}
+
+	public List<QuoteDetailResponse> getList() {
+		return list;
+	}
+
+	public void setList(List<QuoteDetailResponse> list) {
+		this.list = list;
+	}
+	
+	public ResponseEntity<String> getResponseEntity() {
+		return responseEntity;
+	}
+
+	public void setResponseEntity(ResponseEntity<String> responseEntity) {
+		this.responseEntity = responseEntity;
+	}
+	
 	public static void main(String[] args) {
-		String _URL = "https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/day/2023-01-09/2023-01-09?adjusted=true&sort=asc&limit=120&apiKey=TcrLC_fRVS3Dr02Q3yyIyi1voM40P6ce";
+		String _URL = "https://query1.finance.yahoo.com/v7/finance/download/IBM?period1=0&period2=9999999999&interval=1d&events=history";
 		
 		try {
 			JsonUtilQuoteDetailResponse jsUtil = new JsonUtilQuoteDetailResponse(_URL);
-			SingleQuoteDetailResponse sqlResponse = jsUtil.retrieveObject();
+						
+			System.out.println(jsUtil.retrieveObject());
 			
-			System.out.println(sqlResponse);
-			
-		} catch (IOException eIO) {
-			System.out.println(eIO);
-		}
-		
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (CsvValidationException e) {
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}		
 	}
+
+
+
+					
 }
 
 
