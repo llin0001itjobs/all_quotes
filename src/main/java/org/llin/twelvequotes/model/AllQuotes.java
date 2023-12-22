@@ -5,12 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.llin.twelvequotes.util.LoggingAdvice;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class AllQuotes <T extends SingleQuote>{
-	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
 	
 	private List<SingleQuote> all;
 	private List<SingleQuote> onlyOneCountry;
@@ -29,7 +24,7 @@ public class AllQuotes <T extends SingleQuote>{
 		all = quotes;
 		list = all;
 	}
-
+	
 	public String getSelectedCountry() {
 		return selectedCountry;
 	}
@@ -141,7 +136,5 @@ public class AllQuotes <T extends SingleQuote>{
 				+ ", selectedType=" + selectedType + ", selectedSymbol=" + selectedSymbol + ", countrySet=" + countrySet
 				+ ", typeSet=" + typeSet + "]";
 	}
-
-
 				
 }
