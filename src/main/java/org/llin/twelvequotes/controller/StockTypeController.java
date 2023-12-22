@@ -1,10 +1,8 @@
 package org.llin.twelvequotes.controller;
 
+import org.llin.twelvequotes.Constants;
 import org.llin.twelvequotes.model.AllQuotes;
 import org.llin.twelvequotes.model.SingleQuote;
-import org.llin.twelvequotes.util.LoggingAdvice;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/stockType")
-public class StockTypeController<T extends SingleQuote> extends Base {
-	private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
+public class StockTypeController<T extends SingleQuote> extends Constants {
 	public static final String ALL_QUOTES = "ALL_QUOTES";
 
 	@SuppressWarnings("unchecked")
@@ -30,6 +27,7 @@ public class StockTypeController<T extends SingleQuote> extends Base {
 		return modelAndView;
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostMapping("/submit")
 	public String handleFormSubmission(@RequestParam("selectedType") String selectedType,
 											 @RequestParam("submit") String submit,
@@ -40,7 +38,7 @@ public class StockTypeController<T extends SingleQuote> extends Base {
 			redirect = "redirect:/quotes/list";
 		}
 		
-		AllQuotes all_quotes = (AllQuotes) session.getAttribute(ALL_QUOTES);
+		AllQuotes<T> all_quotes = (AllQuotes<T>) session.getAttribute(ALL_QUOTES);
 
 		all_quotes.setSelectedType(selectedType); 
 		all_quotes.populateForOnlySelectedType();
