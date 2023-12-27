@@ -76,7 +76,7 @@ image.icon {
 					<li class="nav-item"><a class="nav-link"
 						th:href="@{/quotes/list}">Stock List</a></li>
 					<li class="nav-item"><a class="nav-link"
-						th:href="@{/quotes/symbol/{ticker}(ticker=${QUOTE_RESPONSE.ticker})}">Single
+						th:href="@{/quotes/{ticker}(ticker=${QUOTE_RESPONSE.ticker})}">Single
 							Quote</a></li>
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page">Quote Detail</a></li>
