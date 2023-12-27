@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.llin.twelvequotes.model.SingleQuote;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,6 +13,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Component
 public class JsonUtilSingleQuote<T extends SingleQuote> {
 	    
     private String urlApi;

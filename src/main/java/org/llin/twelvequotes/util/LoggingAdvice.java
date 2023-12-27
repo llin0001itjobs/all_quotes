@@ -25,26 +25,6 @@ public class LoggingAdvice {
     	logger.debug("*=*=*=*Starting controller + method: " +  methodName + " " + className);
     }
     
-    @Before("execution (* org.llin.twelvequotes.service.*.*(..))")
-    public void beforeService(JoinPoint joinPoint)  {
-    	Signature signature = joinPoint.getSignature();
-    	               
-        String methodName = signature.getName();
-        String className = signature.getDeclaringTypeName();
-        
-    	logger.debug("*=*=*=*Starting service + method: " +  methodName + " " + className);
-    }
-    
-    @Before("execution (* org.llin.twelvequotes.util.*.*(..))")
-    public void beforeUtility(JoinPoint joinPoint)  {
-    	Signature signature = joinPoint.getSignature();
-    	               
-        String methodName = signature.getName();
-        String className = signature.getDeclaringTypeName();
-        
-    	logger.debug("*=*=*=*Starting utility + method: " +  methodName + " " + className);
-    }
-    
     @After("execution (* org.llin.twelvequotes.controller.*.*(..))")
     public void afterController(JoinPoint joinPoint)  {
     	Signature signature = joinPoint.getSignature();
@@ -53,6 +33,16 @@ public class LoggingAdvice {
         String className = signature.getDeclaringTypeName();
         
     	logger.debug("*=*=*=*Ending controller + method: " +  methodName + " " + className);
+    }
+        
+    @Before("execution (* org.llin.twelvequotes.service.*.*(..))")
+    public void beforeService(JoinPoint joinPoint)  {
+    	Signature signature = joinPoint.getSignature();
+    	               
+        String methodName = signature.getName();
+        String className = signature.getDeclaringTypeName();
+        
+    	logger.debug("*=*=*=*Starting service + method: " +  methodName + " " + className);
     }
     
     @After("execution (* org.llin.twelvequotes.service.*.*(..))")
@@ -65,6 +55,16 @@ public class LoggingAdvice {
     	logger.debug("*=*=*=*Ending service + method: " +  methodName + " " + className);
     }
     
+    @Before("execution (* org.llin.twelvequotes.util.*.*(..))")
+    public void beforeUtility(JoinPoint joinPoint)  {
+    	Signature signature = joinPoint.getSignature();
+    	               
+        String methodName = signature.getName();
+        String className = signature.getDeclaringTypeName();
+        
+    	logger.debug("*=*=*=*Starting utility + method: " +  methodName + " " + className);
+    }
+        
     @After("execution (* org.llin.twelvequotes.util.*.*(..))")
     public void afterUtility(JoinPoint joinPoint)  {
     	Signature signature = joinPoint.getSignature();
