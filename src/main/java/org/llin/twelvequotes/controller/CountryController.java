@@ -1,15 +1,10 @@
 package org.llin.twelvequotes.controller;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.llin.twelvequotes.Constants;
 import org.llin.twelvequotes.model.AllQuotes;
 import org.llin.twelvequotes.model.SingleQuote;
-import org.llin.twelvequotes.service.SingleQuoteService;
-import org.llin.twelvequotes.util.JsonUtilSingleQuote;
+import org.llin.twelvequotes.util.QuotesRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,34 +19,14 @@ import jakarta.servlet.http.HttpSession;
 public class CountryController<T extends SingleQuote> extends Constants {
 	
 	@Autowired
-	private SingleQuoteService<T> sqs;
+	private QuotesRetriever<T> quotesRetriever;
 	
-	@Value("${api.twelve-quotes.url}")
-	private String url;
-	
-	@SuppressWarnings("unchecked")
 	@GetMapping("/list")
 	public ModelAndView getAllQuotes(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView("country");
-
-		try {			
-			if (session.getAttribute(ALL_QUOTES) == null) {
-				List<SingleQuote> list = sqs.findAll();
-				AllQuotes<SingleQuote> all_quotes = new AllQuotes<SingleQuote>(list);  
-				if (sqs.count() == 0) {
-					JsonUtilSingleQuote<SingleQuote> jsonUtil = new JsonUtilSingleQuote<>(url);
-					all_quotes = new AllQuotes<>(jsonUtil.retrieveObject());
-					sqs.saveAll(all_quotes.getAll());
-				}
-				all_quotes.populateCountrySet();
-				session.setAttribute(ALL_QUOTES, all_quotes);
-			}
-			modelAndView.addObject(ALL_QUOTES, (AllQuotes<T>) session.getAttribute(ALL_QUOTES));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		AllQuotes<T> all_quotes = quotesRetriever.retrieve();
+		session.setAttribute(ALL_QUOTES, all_quotes);
+		modelAndView.addObject(ALL_QUOTES, all_quotes);
 		return modelAndView;
 	}
 
