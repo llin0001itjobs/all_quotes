@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.llin.twelvequotes.model.SingleQuote;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,7 +28,7 @@ public class JsonUtilSingleQuote<T extends SingleQuote> {
 	public JsonUtilSingleQuote(String urlApi) {
 		this.urlApi = urlApi;
 	}
-
+			
 	public List<T> retrieveObject() throws IOException {
 		List<T> list = new ArrayList<>();
 		RestTemplate restTemplate = new RestTemplate();
