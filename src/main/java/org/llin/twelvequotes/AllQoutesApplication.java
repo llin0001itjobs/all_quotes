@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@ConfigurationProperties(prefix = "api")
+@ConfigurationProperties(prefix = "api.twelve-quotes.presentation")
 @EnableScheduling
 public class AllQoutesApplication {
 
