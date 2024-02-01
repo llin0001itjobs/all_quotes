@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.llin.twelvequotes.Constants;
+import org.llin.twelvequotes.config.TwelveQuotesConfig;
 import org.llin.twelvequotes.controller.util.SearchRequest;
 import org.llin.twelvequotes.model.AllQuotes;
 import org.llin.twelvequotes.model.ChunkedList;
@@ -11,7 +12,7 @@ import org.llin.twelvequotes.model.ChunkedSubList;
 import org.llin.twelvequotes.model.QuoteDetailRequest;
 import org.llin.twelvequotes.model.SingleQuote;
 import org.llin.twelvequotes.util.ChunkerUtil;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,12 +27,13 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/quotes")
 public class QuotesController<T extends SingleQuote> extends Constants {
 	
-	@Value("${api.twelve-quotes.presentation.quotesPerPage}")
-	private int qoutes_per_page;
+	public QuotesController() {
+		super();
+	}
 	
-	@Value("${api.twelve-quotes.presentation.tabsPerLine}")
-	private int tabs_per_line;
-	
+	@Autowired
+	private TwelveQuotesConfig quotesConfig;
+
 	@SuppressWarnings("unchecked")
 	@GetMapping("/list")
 	public ModelAndView getAllQuotes(HttpSession session) {
@@ -40,7 +42,7 @@ public class QuotesController<T extends SingleQuote> extends Constants {
 
 		AllQuotes<T> all_quotes = (AllQuotes<T>) session.getAttribute(ALL_QUOTES);
 
-		ChunkerUtil.chunkList(all_quotes, qoutes_per_page, tabs_per_line);
+		ChunkerUtil.chunkList(all_quotes, quotesConfig.getQuotesPerPage(), quotesConfig.getTabsPerLine());
 
 		modelAndView.addObject(ALL_QUOTES, all_quotes);
 		modelAndView.addObject(SEARCH_REQUEST, new SearchRequest());
@@ -57,7 +59,7 @@ public class QuotesController<T extends SingleQuote> extends Constants {
 
 		ModelAndView modelAndView = new ModelAndView("quoteRequest");
 
-		AllQuotes<T> all_quotes = (AllQuotes<T>) session.getAttribute(ALL_QUOTES);				
+		AllQuotes<T> all_quotes = (AllQuotes<T>) session.getAttribute(ALL_QUOTES);
 		all_quotes.setSelectedSymbol(symbol);
 
 		modelAndView.addObject(ALL_QUOTES, all_quotes);
@@ -94,7 +96,7 @@ public class QuotesController<T extends SingleQuote> extends Constants {
 
 		if (!list.isEmpty()) {
 			all_quotes.setList(list);
-			ChunkerUtil.chunkList(all_quotes, qoutes_per_page, tabs_per_line);
+			ChunkerUtil.chunkList(all_quotes, quotesConfig.getQuotesPerPage(), quotesConfig.getTabsPerLine());
 		}
 		modelAndView.addObject(ALL_QUOTES, all_quotes);
 
